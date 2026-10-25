@@ -110,7 +110,7 @@ function TimelineCard({ note, onOpen }: { note: typeof notes[number]; onOpen: ()
   );
 }
 
-function Timeline({ onCompose, onOpen }: { onCompose: () => void; onOpen: () => void }) {
+function Timeline({ onCompose, onOpen, onOpenSecurity }: { onCompose: () => void; onOpen: () => void; onOpenSecurity: () => void }) {
   const [filter, setFilter] = useState("全部");
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
@@ -128,7 +128,7 @@ function Timeline({ onCompose, onOpen }: { onCompose: () => void; onOpen: () => 
           <p className="today-label">10月25日 · 星期日</p>
           <h2>你的时间线</h2>
         </div>
-        <button className="avatar-button" aria-label="个人资料">拾</button>
+        <button className="avatar-button" onClick={onOpenSecurity} aria-label="打开数据与安全">拾</button>
       </header>
 
       <div className="thought-prompt">
@@ -227,12 +227,15 @@ function SearchView({ onOpen }: { onOpen: () => void }) {
   );
 }
 
-function VaultView({ onExport }: { onExport: () => void }) {
+function VaultView({ onExport, onBack }: { onExport: () => void; onBack: () => void }) {
   return (
     <main className="app-view vault-view">
-      <header className="simple-header">
-        <p className="today-label">本机资料库</p>
-        <h2>数据与安全</h2>
+      <header className="vault-topbar">
+        <button className="back-button" onClick={onBack} aria-label="返回时间线">‹</button>
+        <div>
+          <p className="today-label">本机资料库</p>
+          <h2>数据与安全</h2>
+        </div>
       </header>
 
       <section className="vault-hero">
@@ -409,12 +412,8 @@ export default function Home() {
           {locked ? <LockScreen onUnlock={() => setLocked(false)} /> : (
             <div className="phone-content">
               <div className="status-row"><span>9:41</span><span className="status-symbols">● ◒ ▰</span></div>
-              {view === "timeline" && <Timeline onCompose={() => setComposer(true)} onOpen={() => setDetail(true)} />}
-              {view === "vault" && <VaultView onExport={() => setExporting(true)} />}
-              <nav className="bottom-nav" aria-label="主导航">
-                <button className={view === "timeline" ? "active" : ""} onClick={() => setView("timeline")}><span>⌂</span><small>记录</small></button>
-                <button className={view === "vault" ? "active" : ""} onClick={() => setView("vault")}><span>◇</span><small>安全</small></button>
-              </nav>
+              {view === "timeline" && <Timeline onCompose={() => setComposer(true)} onOpen={() => setDetail(true)} onOpenSecurity={() => setView("vault")} />}
+              {view === "vault" && <VaultView onExport={() => setExporting(true)} onBack={() => setView("timeline")} />}
               <div className="gesture-bar dark-bar" />
             </div>
           )}

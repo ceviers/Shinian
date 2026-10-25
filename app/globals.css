@@ -91,10 +91,13 @@ button { color: inherit; }
 .passcode-link { margin-bottom: 47px; background: none; border: 0; color: #cdbdff; font-size: 11px; cursor: pointer; }
 
 .phone-content { position: absolute; inset: 0; background: var(--paper); }
-.app-view { position: absolute; inset: 49px 0 76px; overflow-y: auto; scrollbar-width: none; padding: 18px 19px 32px; }
+.app-view { position: absolute; inset: 49px 0 10px; overflow-y: auto; scrollbar-width: none; padding: 18px 19px 42px; }
 .app-view::-webkit-scrollbar { display: none; }
 .top-bar, .simple-header { display: flex; align-items: flex-start; justify-content: space-between; }
 .simple-header { display: block; margin-bottom: 20px; }
+.vault-topbar { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+.vault-topbar h2 { margin: 0; font-size: 27px; letter-spacing: -.04em; }
+.back-button { width: 40px; height: 40px; border: 1px solid var(--line); border-radius: 15px; background: #fff; font-size: 28px; line-height: 1; cursor: pointer; box-shadow: 0 5px 15px rgba(50,39,63,.05); }
 .today-label { margin: 0 0 3px; color: var(--purple); text-transform: uppercase; font-size: 10px; font-weight: 800; letter-spacing: .11em; }
 .top-bar h2, .simple-header h2 { margin: 0; font-size: 27px; letter-spacing: -.04em; }
 .avatar-button { width: 40px; height: 40px; border: 0; border-radius: 15px 15px 8px 15px; background: var(--ink); color: white; font-weight: 800; cursor: pointer; }
@@ -137,9 +140,6 @@ button { color: inherit; }
 .photo-strip { display: flex; gap: 5px; margin: 10px 0; }.photo { width: 74px; height: 50px; border-radius: 10px; background-size: cover; }.photo-one { background: linear-gradient(155deg, #788694 0 40%, #e5b97d 41% 52%, #576a68 53%); }.photo-two { background: linear-gradient(145deg, #d7c3a5, #f2e5cc 45%, #6a7b70 46%); }
 .fab { position: sticky; bottom: 8px; float: right; margin-top: 18px; display: flex; align-items: center; gap: 5px; border: 0; border-radius: 18px; background: var(--purple); color: white; padding: 10px 16px 10px 11px; box-shadow: 0 9px 24px rgba(93,69,176,.34); cursor: pointer; }.fab span { font-size: 21px; }.fab b { font-size: 11px; }
 
-.bottom-nav { position: absolute; z-index: 50; bottom: 0; left: 0; right: 0; height: 76px; background: rgba(255,252,248,.93); backdrop-filter: blur(18px); border-top: 1px solid rgba(40,30,50,.07); display: grid; grid-template-columns: repeat(2, 1fr); padding: 7px 96px 17px; gap: 38px; }
-.bottom-nav button { border: 0; background: none; color: #8c8491; display: flex; flex-direction: column; align-items: center; gap: 1px; cursor: pointer; }.bottom-nav button span { height: 29px; min-width: 50px; padding: 3px 15px; border-radius: 20px; font-size: 18px; }.bottom-nav small { font-size: 8px; }.bottom-nav button.active { color: var(--purple-dark); font-weight: 800; }.bottom-nav button.active span { background: var(--purple-soft); }
-
 .search-box { display: flex; align-items: center; gap: 9px; background: white; border: 1px solid var(--line); padding: 12px 14px; border-radius: 19px; box-shadow: 0 7px 20px rgba(48,36,61,.04); }.search-box span { font-size: 20px; }.search-box input { flex: 1; border: 0; outline: 0; background: transparent; font-size: 12px; }.search-box button { border: 0; background: #eeeaf1; border-radius: 50%; width: 20px; height: 20px; }
 .quick-searches { display: flex; gap: 6px; margin: 13px 0 25px; overflow-x: auto; }.quick-searches button { background: #efebf2; border: 0; }
 .search-empty { min-height: 430px; display: flex; flex-direction: column; }.search-graphic { margin: 55px auto 20px; width: 72px; height: 72px; border-radius: 25px 25px 13px 25px; background: var(--purple-soft); color: var(--purple); display: grid; place-items: center; font-size: 38px; transform: rotate(-4deg); }.search-empty h3 { text-align: center; margin: 0 0 8px; font-size: 15px; }.search-empty > p:not(.result-caption) { text-align: center; margin: 0; color: var(--muted); font-size: 10px; }.recent-search { margin-top: auto; border-top: 1px solid var(--line); padding-top: 14px; display: flex; align-items: center; justify-content: space-between; font-size: 9px; color: #938b98; }.recent-search button { border: 0; background: none; font-size: 10px; cursor: pointer; }.result-caption { color: var(--muted); font-size: 10px; margin: 0 0 12px; }
@@ -178,7 +178,6 @@ button { color: inherit; }
 
 @media (max-width: 380px) {
   .app-view { padding-left:14px; padding-right:14px; }
-  .bottom-nav { padding-left:35px; padding-right:35px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
