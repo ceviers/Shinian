@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 
-type View = "timeline" | "search" | "vault";
+type View = "timeline" | "vault";
 type CaptureMode = "text" | "image" | "audio";
 
 const notes = [
@@ -112,6 +112,15 @@ function TimelineCard({ note, onOpen }: { note: typeof notes[number]; onOpen: ()
 
 function Timeline({ onCompose, onOpen }: { onCompose: () => void; onOpen: () => void }) {
   const [filter, setFilter] = useState("全部");
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const matchesSearch = (note: typeof notes[number]) => {
+    const matchesType = filter === "全部" || (filter === "文字" && note.type === "text") || (filter === "图片" && note.type === "image") || (filter === "音频" && note.type === "audio");
+    const keyword = query.trim().toLowerCase();
+    return matchesType && (!keyword || `${note.title}${note.body}`.toLowerCase().includes(keyword));
+  };
+  const visibleNotes = notes.filter(matchesSearch);
+  const visibleOlderNotes = olderNotes.filter((note) => matchesSearch(note as typeof notes[number]));
   return (
     <main className="app-view timeline-view">
       <header className="top-bar">
@@ -128,27 +137,55 @@ function Timeline({ onCompose, onOpen }: { onCompose: () => void; onOpen: () => 
         <button onClick={onCompose}>写下</button>
       </div>
 
-      <div className="filter-row" aria-label="记录筛选">
-        {["全部", "文字", "图片", "音频"].map((item) => (
-          <button key={item} className={filter === item ? "active" : ""} onClick={() => setFilter(item)}>{item}</button>
-        ))}
+      <div className="filter-toolbar">
+        <div className="filter-row" aria-label="记录筛选">
+          {["全部", "文字", "图片", "音频"].map((item) => (
+            <button key={item} className={filter === item ? "active" : ""} onClick={() => setFilter(item)}>{item}</button>
+          ))}
+        </div>
+        <button
+          className={`inline-search-button ${searchOpen ? "active" : ""}`}
+          onClick={() => {
+            setSearchOpen(!searchOpen);
+            if (searchOpen) setQuery("");
+          }}
+          aria-label={searchOpen ? "关闭搜索" : "搜索记录"}
+        >
+          {searchOpen ? "×" : "⌕"}
+        </button>
       </div>
 
+      {searchOpen && (
+        <div className="inline-search-panel">
+          <label className="search-box">
+            <span>⌕</span>
+            <input autoFocus value={query} onChange={(e) => setQuery(e.target.value)} placeholder="搜索记录内容" />
+            {query && <button onClick={() => setQuery("")} aria-label="清空搜索">×</button>}
+          </label>
+          <small>{query ? `找到 ${visibleNotes.length + visibleOlderNotes.length} 条记录` : "搜索只在本机完成"}</small>
+        </div>
+      )}
+
       <section className="timeline-section">
-        <div className="date-heading"><strong>今天</strong><span>3 条记录</span></div>
+        <div className="date-heading"><strong>今天</strong><span>{visibleNotes.length} 条记录</span></div>
         <div className="timeline-rail">
-          {notes.filter((note) => filter === "全部" || (filter === "文字" && note.type === "text") || (filter === "图片" && note.type === "image") || (filter === "音频" && note.type === "audio")).map((note) => (
+          {visibleNotes.map((note) => (
             <TimelineCard key={note.id} note={note} onOpen={onOpen} />
           ))}
         </div>
       </section>
 
-      <section className="timeline-section older-section">
-        <div className="date-heading"><strong>昨天</strong><span>2 条记录</span></div>
-        <div className="timeline-rail">
-          {olderNotes.map((note) => <TimelineCard key={note.id} note={note as typeof notes[number]} onOpen={onOpen} />)}
-        </div>
-      </section>
+      {visibleOlderNotes.length > 0 && (
+        <section className="timeline-section older-section">
+          <div className="date-heading"><strong>昨天</strong><span>{visibleOlderNotes.length} 条记录</span></div>
+          <div className="timeline-rail">
+            {visibleOlderNotes.map((note) => <TimelineCard key={note.id} note={note as typeof notes[number]} onOpen={onOpen} />)}
+          </div>
+        </section>
+      )}
+      {visibleNotes.length + visibleOlderNotes.length === 0 && (
+        <div className="no-search-results"><span>⌕</span><strong>没有找到相关记录</strong><small>换一个关键词，或调整上方分类</small></div>
+      )}
       <button className="fab" onClick={onCompose} aria-label="新建记录"><span>＋</span><b>记录</b></button>
     </main>
   );
@@ -345,7 +382,7 @@ export default function Home() {
   const [detail, setDetail] = useState(false);
   const [exporting, setExporting] = useState(false);
 
-  const viewLabel = useMemo(() => view === "timeline" ? "时间线" : view === "search" ? "搜索" : "数据与安全", [view]);
+  const viewLabel = useMemo(() => view === "timeline" ? "时间线" : "数据与安全", [view]);
 
   return (
     <div className="prototype-page">
@@ -373,11 +410,9 @@ export default function Home() {
             <div className="phone-content">
               <div className="status-row"><span>9:41</span><span className="status-symbols">● ◒ ▰</span></div>
               {view === "timeline" && <Timeline onCompose={() => setComposer(true)} onOpen={() => setDetail(true)} />}
-              {view === "search" && <SearchView onOpen={() => setDetail(true)} />}
               {view === "vault" && <VaultView onExport={() => setExporting(true)} />}
               <nav className="bottom-nav" aria-label="主导航">
                 <button className={view === "timeline" ? "active" : ""} onClick={() => setView("timeline")}><span>⌂</span><small>记录</small></button>
-                <button className={view === "search" ? "active" : ""} onClick={() => setView("search")}><span>⌕</span><small>搜索</small></button>
                 <button className={view === "vault" ? "active" : ""} onClick={() => setView("vault")}><span>◇</span><small>安全</small></button>
               </nav>
               <div className="gesture-bar dark-bar" />

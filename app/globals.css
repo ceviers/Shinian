@@ -103,9 +103,21 @@ button { color: inherit; }
 .thought-prompt > span:nth-child(2) { flex: 1; min-width: 0; }
 .thought-prompt small, .thought-prompt strong { display: block; }.thought-prompt small { font-size: 9px; color: #756d83; margin-bottom: 3px; }.thought-prompt strong { font-size: 12px; }
 .thought-prompt button { background: var(--purple); color: white; border: 0; border-radius: 14px; padding: 8px 12px; font-size: 10px; cursor: pointer; }
-.filter-row { display: flex; gap: 7px; overflow-x: auto; margin-bottom: 20px; }
+.filter-toolbar { display: flex; align-items: center; gap: 9px; margin-bottom: 20px; }
+.filter-row { flex: 1; display: flex; gap: 7px; overflow-x: auto; margin: 0; scrollbar-width: none; }
+.filter-row::-webkit-scrollbar { display: none; }
 .filter-row button, .quick-searches button { border: 1px solid var(--line); background: transparent; border-radius: 30px; padding: 7px 13px; color: var(--muted); font-size: 10px; cursor: pointer; white-space: nowrap; }
 .filter-row button.active { background: var(--ink); color: white; }
+.inline-search-button { flex: 0 0 36px; width: 36px; height: 36px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 14px; background: #fff; color: var(--ink); font-size: 21px; line-height: 1; cursor: pointer; box-shadow: 0 5px 15px rgba(50,39,63,.05); }
+.inline-search-button.active { color: #fff; background: var(--purple); border-color: var(--purple); }
+.inline-search-panel { margin: -5px 0 20px; animation: revealSearch .2s ease; }
+.inline-search-panel .search-box { padding: 10px 13px; }
+.inline-search-panel > small { display: block; color: #938b98; font-size: 8px; padding: 7px 4px 0; }
+@keyframes revealSearch { from { opacity: 0; transform: translateY(-7px); } }
+.no-search-results { min-height: 190px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #928a97; text-align: center; }
+.no-search-results > span { width: 48px; height: 48px; display: grid; place-items: center; border-radius: 18px 18px 9px 18px; background: var(--purple-soft); color: var(--purple); font-size: 26px; margin-bottom: 13px; }
+.no-search-results strong { color: var(--ink); font-size: 12px; margin-bottom: 4px; }
+.no-search-results small { font-size: 8px; }
 .timeline-section { margin-top: 10px; }
 .older-section { margin-top: 27px; }
 .date-heading { display: flex; align-items: center; justify-content: space-between; margin: 0 3px 12px; }
@@ -125,7 +137,7 @@ button { color: inherit; }
 .photo-strip { display: flex; gap: 5px; margin: 10px 0; }.photo { width: 74px; height: 50px; border-radius: 10px; background-size: cover; }.photo-one { background: linear-gradient(155deg, #788694 0 40%, #e5b97d 41% 52%, #576a68 53%); }.photo-two { background: linear-gradient(145deg, #d7c3a5, #f2e5cc 45%, #6a7b70 46%); }
 .fab { position: sticky; bottom: 8px; float: right; margin-top: 18px; display: flex; align-items: center; gap: 5px; border: 0; border-radius: 18px; background: var(--purple); color: white; padding: 10px 16px 10px 11px; box-shadow: 0 9px 24px rgba(93,69,176,.34); cursor: pointer; }.fab span { font-size: 21px; }.fab b { font-size: 11px; }
 
-.bottom-nav { position: absolute; z-index: 50; bottom: 0; left: 0; right: 0; height: 76px; background: rgba(255,252,248,.93); backdrop-filter: blur(18px); border-top: 1px solid rgba(40,30,50,.07); display: grid; grid-template-columns: repeat(3, 1fr); padding: 7px 51px 17px; gap: 13px; }
+.bottom-nav { position: absolute; z-index: 50; bottom: 0; left: 0; right: 0; height: 76px; background: rgba(255,252,248,.93); backdrop-filter: blur(18px); border-top: 1px solid rgba(40,30,50,.07); display: grid; grid-template-columns: repeat(2, 1fr); padding: 7px 96px 17px; gap: 38px; }
 .bottom-nav button { border: 0; background: none; color: #8c8491; display: flex; flex-direction: column; align-items: center; gap: 1px; cursor: pointer; }.bottom-nav button span { height: 29px; min-width: 50px; padding: 3px 15px; border-radius: 20px; font-size: 18px; }.bottom-nav small { font-size: 8px; }.bottom-nav button.active { color: var(--purple-dark); font-weight: 800; }.bottom-nav button.active span { background: var(--purple-soft); }
 
 .search-box { display: flex; align-items: center; gap: 9px; background: white; border: 1px solid var(--line); padding: 12px 14px; border-radius: 19px; box-shadow: 0 7px 20px rgba(48,36,61,.04); }.search-box span { font-size: 20px; }.search-box input { flex: 1; border: 0; outline: 0; background: transparent; font-size: 12px; }.search-box button { border: 0; background: #eeeaf1; border-radius: 50%; width: 20px; height: 20px; }
