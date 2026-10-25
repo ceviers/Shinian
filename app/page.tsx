@@ -126,7 +126,6 @@ function Timeline({ onCompose, onOpen, onOpenSecurity }: { onCompose: () => void
       <header className="top-bar">
         <div>
           <p className="today-label">10月25日 · 星期日</p>
-          <h2>你的时间线</h2>
         </div>
         <button className="avatar-button" onClick={onOpenSecurity} aria-label="打开数据与安全">拾</button>
       </header>

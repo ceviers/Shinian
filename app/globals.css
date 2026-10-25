@@ -95,6 +95,7 @@ button { color: inherit; }
 .app-view::-webkit-scrollbar { display: none; }
 .timeline-view { padding-bottom: 112px; }
 .top-bar, .simple-header { display: flex; align-items: flex-start; justify-content: space-between; }
+.timeline-view .top-bar { align-items: center; min-height: 40px; }
 .simple-header { display: block; margin-bottom: 20px; }
 .vault-topbar { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
 .vault-topbar h2 { margin: 0; font-size: 27px; letter-spacing: -.04em; }
