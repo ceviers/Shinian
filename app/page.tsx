@@ -68,9 +68,9 @@ function LockScreen({ onUnlock }: { onUnlock: () => void }) {
       <div className="lock-orbit orbit-two" />
       <div className="lock-copy">
         <div className="brand-mark">拾</div>
-        <p className="eyebrow">拾念 · 私密记录</p>
+        <p className="eyebrow">拾念 · 随手记录</p>
         <h1>欢迎回来</h1>
-        <p>你的想法已在本机加密保存</p>
+        <p>让每一个闪念都有迹可循</p>
       </div>
       <button className="fingerprint-button" onClick={onUnlock} aria-label="使用指纹解锁">
         <span className="fingerprint">◎</span>
