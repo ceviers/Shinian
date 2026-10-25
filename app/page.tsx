@@ -57,7 +57,7 @@ function MiniIcon({ children }: { children: React.ReactNode }) {
   return <span className="mini-icon" aria-hidden="true">{children}</span>;
 }
 
-function LockScreen({ onUnlock }: { onUnlock: () => void }) {
+function LockScreen({ onUnlock, onCreateVault }: { onUnlock: () => void; onCreateVault: () => void }) {
   return (
     <section className="lock-screen" aria-label="指纹解锁演示">
       <div className="status-row light-status">
@@ -77,7 +77,82 @@ function LockScreen({ onUnlock }: { onUnlock: () => void }) {
       </button>
       <p className="unlock-hint">触摸以使用指纹解锁</p>
       <button className="passcode-link" onClick={onUnlock}>改用恢复口令</button>
+      <button className="create-vault-link" onClick={onCreateVault}>首次使用？创建资料库</button>
       <div className="gesture-bar" />
+    </section>
+  );
+}
+
+function LibrarySetup({ onClose, onComplete }: { onClose: () => void; onComplete: () => void }) {
+  const [step, setStep] = useState(1);
+  const [folderSelected, setFolderSelected] = useState(false);
+  const [passphrase, setPassphrase] = useState("");
+  const [confirmed, setConfirmed] = useState("");
+
+  return (
+    <section className="setup-screen" aria-label="创建资料库">
+      <div className="status-row"><span>9:41</span><span className="status-symbols">● ◒ ▰</span></div>
+      <header className="setup-header">
+        <button onClick={step === 1 ? onClose : () => setStep(step - 1)} aria-label="返回">‹</button>
+        <strong>创建资料库</strong>
+        <span>{step} / 3</span>
+      </header>
+      <div className="setup-progress" aria-label={`第 ${step} 步，共 3 步`}>
+        {[1, 2, 3].map((item) => <i key={item} className={item <= step ? "active" : ""} />)}
+      </div>
+
+      {step === 1 && (
+        <div className="setup-content">
+          <div className="setup-illustration folder-illustration">▰</div>
+          <p className="setup-eyebrow">第一步 · 选择位置</p>
+          <h2>把资料库放在哪里？</h2>
+          <p className="setup-description">选择一个由你管理的文件夹。卸载 App 后，资料库文件仍会保留在这里。</p>
+          <button className={`folder-picker ${folderSelected ? "selected" : ""}`} onClick={() => setFolderSelected(true)}>
+            <span className="folder-symbol">▣</span>
+            <span><strong>{folderSelected ? "Documents / 拾念资料库" : "选择存储文件夹"}</strong><small>{folderSelected ? "可在卸载后重新选择此目录" : "将打开 Android 系统目录选择器"}</small></span>
+            <b>{folderSelected ? "✓" : "›"}</b>
+          </button>
+          <div className="setup-note"><span>i</span><p>建议使用 Documents 目录，不要选择 Downloads 或临时文件夹。</p></div>
+        </div>
+      )}
+
+      {step === 2 && (
+        <div className="setup-content">
+          <div className="setup-illustration key-illustration">＊</div>
+          <p className="setup-eyebrow">第二步 · 恢复方式</p>
+          <h2>设置恢复口令</h2>
+          <p className="setup-description">重新安装 App 或更换设备时，需要用它打开原来的资料库。</p>
+          <label className="passphrase-field"><span>恢复口令</span><input type="password" value={passphrase} onChange={(e) => setPassphrase(e.target.value)} placeholder="至少输入 8 个字符" /></label>
+          <label className="passphrase-field"><span>再次确认</span><input type="password" value={confirmed} onChange={(e) => setConfirmed(e.target.value)} placeholder="再次输入恢复口令" /></label>
+          <div className="setup-note warning-note"><span>!</span><p>拾念无法替你找回恢复口令，请把它保存在安全且容易找到的地方。</p></div>
+        </div>
+      )}
+
+      {step === 3 && (
+        <div className="setup-content">
+          <div className="setup-illustration biometric-illustration">◎</div>
+          <p className="setup-eyebrow">最后一步 · 快速访问</p>
+          <h2>启用指纹解锁</h2>
+          <p className="setup-description">以后每次启动拾念，验证指纹后即可进入你的时间线。</p>
+          <div className="biometric-card"><span>◎</span><div><strong>启动时验证指纹</strong><small>使用 Android 系统生物识别</small></div><span className="toggle on"><i /></span></div>
+          <div className="setup-summary">
+            <div><span>▣</span><p><small>存储位置</small><strong>Documents / 拾念资料库</strong></p><b>✓</b></div>
+            <div><span>＊</span><p><small>恢复方式</small><strong>恢复口令已设置</strong></p><b>✓</b></div>
+          </div>
+        </div>
+      )}
+
+      <footer className="setup-footer">
+        {step === 1 && <button className="secondary-setup-action">恢复已有资料库</button>}
+        <button
+          className="primary-setup-action"
+          disabled={(step === 1 && !folderSelected) || (step === 2 && (passphrase.length < 8 || passphrase !== confirmed))}
+          onClick={() => step < 3 ? setStep(step + 1) : onComplete()}
+        >
+          {step === 3 ? "创建并进入拾念" : "继续"}
+        </button>
+      </footer>
+      <div className="gesture-bar dark-bar" />
     </section>
   );
 }
@@ -378,6 +453,7 @@ function ExportSheet({ onClose }: { onClose: () => void }) {
 
 export default function Home() {
   const [locked, setLocked] = useState(true);
+  const [setup, setSetup] = useState(false);
   const [view, setView] = useState<View>("timeline");
   const [composer, setComposer] = useState(false);
   const [detail, setDetail] = useState(false);
@@ -407,7 +483,7 @@ export default function Home() {
         <div className="ambient-shape shape-one" /><div className="ambient-shape shape-two" />
         <div className="phone-frame">
           <div className="camera-cutout" />
-          {locked ? <LockScreen onUnlock={() => setLocked(false)} /> : (
+          {setup ? <LibrarySetup onClose={() => setSetup(false)} onComplete={() => { setSetup(false); setLocked(false); }} /> : locked ? <LockScreen onUnlock={() => setLocked(false)} onCreateVault={() => setSetup(true)} /> : (
             <div className="phone-content">
               <div className="status-row"><span>9:41</span><span className="status-symbols">● ◒ ▰</span></div>
               {view === "timeline" && <Timeline onCompose={() => setComposer(true)} onOpen={() => setDetail(true)} onOpenSecurity={() => setView("vault")} />}
