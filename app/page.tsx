@@ -124,10 +124,10 @@ function Timeline({ onCompose, onOpen, onOpenSecurity }: { onCompose: () => void
   return (
     <main className="app-view timeline-view">
       <header className="top-bar">
+        <button className="avatar-button" onClick={onOpenSecurity} aria-label="打开数据与安全">拾</button>
         <div>
           <p className="today-label">10月25日 · 星期日</p>
         </div>
-        <button className="avatar-button" onClick={onOpenSecurity} aria-label="打开数据与安全">拾</button>
       </header>
 
       <div className="thought-prompt">
