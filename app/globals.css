@@ -76,22 +76,22 @@ button { color: inherit; }
 .dark-bar { background: rgba(30,26,36,.7); }
 .prototype-caption { position: absolute; bottom: 10px; color: #746d7c; font-size: 10px; letter-spacing: .12em; }
 
-.lock-screen { position: absolute; inset: 0; background: linear-gradient(158deg, #081a3b, #1357b8 56%, #4f91ff 100%); color: white; overflow: hidden; display: flex; flex-direction: column; align-items: center; }
+.lock-screen { position: absolute; inset: 0; background: radial-gradient(circle at 84% 78%, rgba(255,138,52,.2), transparent 34%), radial-gradient(circle at 12% 8%, rgba(80,142,225,.24), transparent 32%), linear-gradient(158deg, #071524 0%, #0d2a49 54%, #174c78 100%); color: white; overflow: hidden; display: flex; flex-direction: column; align-items: center; }
 .light-status { color: white; }
-.lock-orbit { position: absolute; border: 1px solid rgba(255,255,255,.12); border-radius: 50%; }
+.lock-orbit { position: absolute; border: 1px solid rgba(177,209,244,.16); border-radius: 50%; }
 .orbit-one { width: 500px; height: 500px; top: -170px; right: -250px; }
-.orbit-two { width: 360px; height: 360px; bottom: -120px; left: -190px; }
+.orbit-two { width: 360px; height: 360px; bottom: -120px; left: -190px; border-color: rgba(255,174,112,.2); }
 .lock-copy { margin-top: 180px; text-align: center; z-index: 2; }
-.brand-mark { width: 70px; height: 70px; display: grid; place-items: center; margin: 0 auto 23px; border-radius: 25px 25px 12px 25px; background: #ff9b46; color: #13213b; font-size: 28px; font-weight: 900; box-shadow: 0 20px 40px rgba(7,34,77,.3); }
-.lock-copy .eyebrow { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: #d7e6ff; }
+.brand-mark { width: 70px; height: 70px; display: grid; place-items: center; margin: 0 auto 23px; border-radius: 25px 25px 12px 25px; background: linear-gradient(145deg, #ffd2ad, #ff9954); color: #102238; font-size: 28px; font-weight: 900; box-shadow: 0 18px 45px rgba(255,126,39,.18), 0 12px 30px rgba(1,16,32,.34); }
+.lock-copy .eyebrow { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: #ffbc89; }
 .lock-copy h1 { font-size: 38px; letter-spacing: -.04em; margin: 20px 0 8px; }
-.lock-copy > p:last-child { margin: 0; color: #dce8fb; font-size: 13px; }
-.fingerprint-button { margin-top: auto; width: 82px; height: 82px; border: 1px solid rgba(255,255,255,.3); border-radius: 50%; color: white; background: rgba(255,255,255,.1); box-shadow: 0 0 0 11px rgba(255,255,255,.04); cursor: pointer; transition: .25s; }
-.fingerprint-button:hover { transform: scale(1.06); background: rgba(255,255,255,.18); }
+.lock-copy > p:last-child { margin: 0; color: #c9d9ea; font-size: 13px; }
+.fingerprint-button { margin-top: auto; width: 82px; height: 82px; border: 1px solid rgba(255,185,132,.52); border-radius: 50%; color: #fff4ec; background: rgba(255,255,255,.07); box-shadow: 0 0 0 11px rgba(255,138,52,.055), 0 16px 36px rgba(2,19,38,.2); cursor: pointer; transition: .25s; }
+.fingerprint-button:hover { transform: scale(1.06); background: rgba(255,163,94,.16); }
 .fingerprint { font-size: 41px; font-weight: 200; }
-.unlock-hint { margin: 22px 0 8px; font-size: 12px; color: #e4eeff; }
-.passcode-link { margin-bottom: 5px; background: none; border: 0; color: #d7e6ff; font-size: 11px; cursor: pointer; }
-.create-vault-link { margin-bottom: 34px; border: 0; background: none; color: #fff; font-size: 10px; font-weight: 700; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
+.unlock-hint { margin: 22px 0 8px; font-size: 12px; color: #e6edf5; }
+.passcode-link { margin-bottom: 5px; background: none; border: 0; color: #adc8e4; font-size: 11px; cursor: pointer; }
+.create-vault-link { margin-bottom: 34px; border: 0; background: none; color: #ffbd8c; font-size: 10px; font-weight: 700; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
 
 .setup-screen { position: absolute; z-index: 30; inset: 0; overflow-y: auto; scrollbar-width: none; background: var(--paper); padding: 55px 20px 98px; }
 .setup-screen::-webkit-scrollbar { display: none; }
