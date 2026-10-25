@@ -186,7 +186,6 @@ function Timeline({ onCompose, onOpen, onOpenSecurity }: { onCompose: () => void
       {visibleNotes.length + visibleOlderNotes.length === 0 && (
         <div className="no-search-results"><span>⌕</span><strong>没有找到相关记录</strong><small>换一个关键词，或调整上方分类</small></div>
       )}
-      <button className="fab" onClick={onCompose} aria-label="新建记录"><span>＋</span><b>记录</b></button>
     </main>
   );
 }
@@ -414,6 +413,7 @@ export default function Home() {
               <div className="status-row"><span>9:41</span><span className="status-symbols">● ◒ ▰</span></div>
               {view === "timeline" && <Timeline onCompose={() => setComposer(true)} onOpen={() => setDetail(true)} onOpenSecurity={() => setView("vault")} />}
               {view === "vault" && <VaultView onExport={() => setExporting(true)} onBack={() => setView("timeline")} />}
+              {view === "timeline" && <button className="fab" onClick={() => setComposer(true)} aria-label="新建记录"><span>＋</span><b>记录</b></button>}
               <div className="gesture-bar dark-bar" />
             </div>
           )}
