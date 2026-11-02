@@ -20,6 +20,7 @@
 
 # misc
 .DS_Store
+/.idea/
 *.pem
 
 # debug
@@ -38,3 +39,12 @@ yarn-error.log*
 /.wrangler/
 /outputs/
 /work/
+
+# Android
+/android-app/.gradle/
+/android-app/.gradle-user-home/
+/android-app/.kotlin/
+/android-app/.idea/
+/android-app/**/build/
+/android-app/local.properties
+*.iml
